@@ -1,0 +1,42 @@
+---
+- hosts: masterdns
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: install bind
+      yum:
+        name: bind*
+        state: latest
+    - name: template config file
+      template:
+        src: /home/ansible/templates/named.conf.j2
+        dest: /etc/named.conf
+        owner: root
+        group: root
+        mode: '0640'
+    - name: template forward zone
+      template:
+        src: /home/ansible/templates/ziyotek4.flz.j2
+        dest: /var/named/ziyotek4.flz
+        owner: root
+        group: root
+        mode: '0640'
+    - named: template reverse zone
+      template:
+        src: /home/ansible/templates/ziyotek4.rlz.j2
+        dest: /var/named/ziyotek4.rlz
+        owner: root
+        group: root
+        mode: '0640'
+    - name: enable and start named
+      service:
+        name: named
+        enable: yes
+        state: started
+    - name: open firewall port
+      firewalld:
+        service: named
+        immediate: true
+        permanent: true
+        state: enabled 
