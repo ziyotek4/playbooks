@@ -22,7 +22,7 @@
         owner: root
         group: root
         mode: '0640'
-    - named: template reverse zone
+    - name: template reverse zone
       template:
         src: /home/ansible/templates/ziyotek4.rlz.j2
         dest: /var/named/ziyotek4.rlz
