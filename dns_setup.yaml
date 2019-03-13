@@ -13,21 +13,21 @@
         src: /home/ansible/ansible/template/named.conf
         dest: /etc/named.conf
         owner: root
-        group: root
+        group: named
         mode: '0640'
     - name: template forward zone
       template:
         src: /home/ansible/ansible/template/ziyotek4.flz
         dest: /var/named/ziyotek4.flz
         owner: root
-        group: root
+        group: named
         mode: '0640'
     - name: template reverse zone
       template:
         src: /home/ansible/ansible/template/ziyotek4.rlz
         dest: /var/named/ziyotek4.rlz
         owner: root
-        group: root
+        group: named
         mode: '0640'
     - name: enable and start named
       service:
