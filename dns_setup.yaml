@@ -32,7 +32,7 @@
     - name: enable and start named
       service:
         name: named
-        enable: yes
+        enabled: yes
         state: started
     - name: open firewall port
       firewalld:
