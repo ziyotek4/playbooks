@@ -36,7 +36,7 @@
         state: started
     - name: open firewall port
       firewalld:
-        service: named
+        service: dns
         immediate: true
         permanent: true
         state: enabled 
