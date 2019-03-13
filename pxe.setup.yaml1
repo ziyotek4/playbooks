@@ -1,0 +1,77 @@
+
+
+*TODO*
+
+| Variable              | Default                        | Comment                                                              |
+| :---                  | :---                           | :---                                                                 |
+| `pxeserver_directory` | `pxelinux`                     | Subdirectory under TFTP root for PXE specific files                  |
+| Variable              | Default                        | Comment                                                          |
+| :---                  | :---                           | :---                                                             |
+| `pxeserver_directory` | `pxelinux`                     | Subdirectory under TFTP root for PXE specific files              |
+| `pxeserver_images`    | []                             | List of dicts specifying PXEboot images to be served. See below. |
+| `pxeserver_ip`        | `prdx-pxe14.ziyotek4.local` | IP address of the PXE server                                         |
+| `pxeserver_ip`        | `prdx-pxe14.ziyotek.local` | IP address of the PXE server                                     |
+
+You can specify the boot images to be served with the variable `pxeserver_images`, a dict containing the keys listed below. Keys are *mandatory* unless specified.
+
+| Key          | Value                                                                  |
+| :---         | :---                                                                   |
+| `name`       | A unique identifier for the image                                      |
+| `default`    | When `true`, this image is chosen as the default. May be omitted. |
+| `kernel_url` | URL where to download the kernel image.                                |
+| `initrd_url` | URL where to download the initrd image.                                |
+| `label`      | Label for the PXE boot menu entry of this image.                       |
+| Key              | Value                                                             |
+| :---             | :---                                                              |
+| `name`           | A unique identifier for the image                                 |
+| `default`        | When `true`, this image is chosen as the default. May be omitted. |
+| `kernel_url`     | URL where to download the kernel image.                           |
+| `initrd_url`     | URL where to download the initrd image.                           |
+| `kickstart_url`  | URL where to download the kickstart file. May be omitted          |
+| `kickstart_path` | Location where to copy the kickstart file from. May be omitted    |
+| `label`          | Label for the PXE boot menu entry of this image.                  |
+
+## Dependencies
+
+  
+18  tasks/main.yml
+@@ -91,12 +91,26 @@
+    mode: '0600'
+  notify: restart dhcp
+  tags: pxeserver
+
+- name: Copy local kickstart files
+  copy:
+    src: "{{ item.kickstart_path }}"
+    dest: "{{ pxeserver_path }}/{{ item.name }}/ks.cfg"
+  when: item.kickstart_path is defined
+  with_items: "{{ pxeserver_images }}"
+  tags: pxeserver
+
+- name: Download remote kickstart files
+  get_url:
+    url: "{{ item.kickstart_url }}"
+    dest: "{{ pxeserver_path }}/{{ item.name }}/ks.cfg"
+  when: item.kickstart_url is defined
+  with_items: "{{ pxeserver_images }}"
+  tags: pxeserver
+
+- name: Load PXELinux DHCP configuration from main DHCP config file
+  lineinfile:
+    dest: /etc/dhcp/dhcpd.conf
+    line: 'include "/etc/dhcpd-pxelinux.conf";'
+  notify: restart dhcp
+  tags: pxeserver
+
+
+  
+2  templates/pxelinux.cfg_default
+@@ -10,7 +10,7 @@ MENU DEFAULT
+{% endif %}
+MENU LABEL ^{{ loop.index }}) {{ image.label }}
+KERNEL {{ image.name }}/vmlinuz
+APPEND initrd={{ image.name }}/initrd.img root=nfs:{{ pxeserver_ip }}:{{ pxeserver_path }}/{{ image.name }}/rootfs
+APPEND initrd={{ image.name }}/initrd.img root=nfs:{{ pxeserver_ip }}:{{ pxeserver_path }}/{{ image.name }}/rootfs {% if image.kickstart_url is defined or image.kickstart_path is defined%} inst.ks=nfs:{{ pxeserver_ip }}:{{ pxeserver_path }}/{{ image.name }}/ks.cfg {% endif %}
+{% endfor %}
+
+LABEL {{ pxeserver_images|length + 1 }}
