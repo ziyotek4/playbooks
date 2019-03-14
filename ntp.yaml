@@ -21,8 +21,8 @@
         enabled: yes
         state: started
      - name: open firewall port
-      firewalld:
-        service: ntp
-        immediate: true
-        permanent: true
-        state: enabled
+       firewalld:
+         service: ntp
+         immediate: true
+         permanent: true
+         state: enabled
