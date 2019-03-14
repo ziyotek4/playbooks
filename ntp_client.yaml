@@ -1,0 +1,28 @@
+---
+- hosts: all
+  remote_user: ansible
+  become: yes
+
+  tasks:
+    - name: install ntp package
+      yum:
+        name: ntp
+        state: latest
+
+    - name: configure ntp
+      template:
+        src: home/ansible/ansible/template/ntp_client.conf
+        dest: /etc/ntp.conf
+
+    - name: start ntp
+      service:
+        name: ntpd
+        enabled: yes
+        state: started
+
+     - name: open firewall port
+       firewalld:
+         service: ntp
+         immediate: true
+         permanent: true
+         state: enabled
