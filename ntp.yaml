@@ -1,0 +1,22 @@
+---
+- hosts: timeservers
+  remote_user: ansible
+  become: yes
+
+  tasks:
+    - name: install ntp package
+      yum:
+        name: ntp
+        state: latest
+
+    - name: configure ntp
+      template:
+        src: /ansible/template/ntp.conf.j2
+        dest: /etc/ntp.conf
+        notify: restart ntpd
+
+    - name: start ntp
+      service:
+        name: ntpd
+        enabled: yes
+        state: started
