@@ -39,4 +39,4 @@
         service: dns
         immediate: true
         permanent: true
-        state: enabled 
+        state: enabled
