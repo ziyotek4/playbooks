@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: timeclients
   remote_user: ansible
   become: yes
 
@@ -11,7 +11,7 @@
 
     - name: configure ntp
       template:
-        src: home/ansible/ansible/template/ntp_client.conf
+        src: /home/ansible/ansible/template/ntp_client.conf
         dest: /etc/ntp.conf
 
     - name: start ntp
