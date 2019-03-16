@@ -1,0 +1,28 @@
+##Using Ansible to create a local yum repository for Centos7
+---
+- hosts: local_repo
+  remote_user: ansible
+  become: yes
+
+  vars:
+    - source_iso: "/tmp/CentOS-7-x86_64-DVD-1804.iso"
+    - repo_mount: "/mnt/dvd"
+
+  tasks:
+    - name: Create mountable dir
+      file: path={{repo_mount}} state=directory mode=777 owner=root group=root
+
+    - name: mount drive
+      mount:
+        path: "{{repo_mount}}"
+        src: "{{source_iso}}"
+        fstype: iso9660
+        opts: loop,ro
+        state: mounted
+     - name: Add repository
+       yum_repository:
+         name: local
+         description: Local DVD repository
+         baseurl: "ftp://{{repo_mount}}"
+         enabled: yes
+         gpgcheck: no
