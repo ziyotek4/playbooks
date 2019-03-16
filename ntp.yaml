@@ -1,3 +1,4 @@
+#ntp
 ---
 - hosts: timeservers
   remote_user: ansible
