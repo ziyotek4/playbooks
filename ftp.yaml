@@ -23,8 +23,8 @@
         state: enabled
    
     - name: disable SElinux
-       selinux:
-         state: disable
+      selinux:
+        state: disable
 
     - name: enable and start vsftpd
       service:
