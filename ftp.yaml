@@ -7,8 +7,8 @@
   tasks:
     - name: install vsftpd package
       yum:
-      name: vsftpd
-      state: latest
+        name: vsftpd
+        state: latest
 
     - name: template config file
       template:
