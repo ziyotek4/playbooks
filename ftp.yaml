@@ -1,6 +1,6 @@
 #FTP package installation and configuration
 ---
-- hosts: ftp
+- hosts: ftp_repo
   remote_user: ansible
   become: yes
 
@@ -21,7 +21,8 @@
         immediate: true
         permanent: true
         state: enabled
-    - name: disable SElinux
+   
+   - name: disable SElinux
       selinux:
         state: disable
 
