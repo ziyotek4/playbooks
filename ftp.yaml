@@ -22,9 +22,9 @@
         permanent: true
         state: enabled
    
-   - name: disable SElinux
-      selinux:
-        state: disable
+    - name: disable SElinux
+       selinux:
+         state: disable
 
     - name: enable and start vsftpd
       service:
