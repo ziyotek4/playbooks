@@ -20,10 +20,10 @@
         opts: loop,ro
         state: mounted
      
-     - name: Add repository
-       yum_repository:
-         name: local
-         description: Local DVD repository
-         baseurl: "ftp://192.168.40.180/pub/repo"
-         enabled: yes
-         gpgcheck: no
+    - name: Add repository
+      yum_repository:
+        name: local
+        description: Local DVD repository
+        baseurl: "ftp://192.168.40.180/pub/repo"
+        enabled: yes
+        gpgcheck: no
