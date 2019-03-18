@@ -24,7 +24,7 @@
    
     - name: disable SElinux
       selinux:
-        state: disable
+        state: disabled
 
     - name: enable and start vsftpd
       service:
