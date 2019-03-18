@@ -1,0 +1,32 @@
+#FTP package installation and configuration
+---
+- hosts: ftp
+  remote_user: ansible
+  become: yes
+
+  tasks:
+    - name: install vsftpd package
+      yum:
+      name: vsftpd
+      state: latest
+
+    - name: template config file
+      template:
+        src: /home/ansible/ansible/template/ftp.conf
+        dest: /etc/vsftpd/vsftpd.conf
+
+    - name: open firewall port
+      firewalld:
+        service: ftp
+        immediate: true
+        permanent: true
+        state: enabled
+    - name: disable SElinux
+      selinux:
+        state: disable
+
+    - name: enable and start vsftpd
+      service:
+        name: vsftpd
+        enabled: yes
+        state: started
