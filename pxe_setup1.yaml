@@ -13,10 +13,13 @@
         state: 'present'
         update_cache: 'yes'
 
-    - name: template for dhcp and tftp
+    - name: template for dhcp
       template:
         src: /home/ansible/ansible/template/dhcpd.conf
         dest: /etc/dhcp/dhcpd.conf
+        
+    - name: template for tftp
+      template:
         src: /home/ansible/ansible/template/tftp.j2
         dest: /etc/xinetd.d/tftp
 
