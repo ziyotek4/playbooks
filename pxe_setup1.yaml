@@ -1,5 +1,5 @@
 ---
-  hosts: pxe
+- hosts: pxe
   remote_user: ansible
   become: yes
 
@@ -39,11 +39,15 @@
         owner: root
         group: root
         mode: 0755
+    - name: create directories
+      file:   
         path: /var/lib/tftpboot/networkboot
         state: directory
         owner: root
         group: root
         mode: 0755
+    - name: create directories
+      file:  
         path: /var/lib/tftpboot/networkboot/{centos7,centos6}
         state: directory
         owner: root
