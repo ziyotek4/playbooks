@@ -1,0 +1,60 @@
+---
+  hosts: pxe
+  remote_user: ansible
+  become: yes
+
+  vars:
+    - packages: "dhcp tftp tftp-server syslinux vsftpd xinetd"
+
+  tasks:
+    - name: install packages
+      yum:
+        name: "{{packages}}"
+        state: 'present'
+        update_cache: 'yes'
+
+    - name: template for dhcp and tftp
+      template:
+        src: /home/ansible/ansible/template/dhcpd.conf
+        dest: /etc/dhcp/dhcpd.conf
+        src: /home/ansible/ansible/template/tftp.j2
+        dest: /etc/xinetd.d/tftp
+
+    - name: copy files to tftpboot
+      copy:
+        src: /usr/share/syslinux/{pxelinux.0,menu.c32,memdisk,mboot.c32,chain.c32}
+        dest: /var/lib/tftpboot/
+        owner: root
+        group: root
+        mode: 0644
+        remote_src: true
+
+    - name: create directories
+      file:
+        path: /var/lib/tftpboot/pxelinux.cfg
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+        path: /var/lib/tftpboot/networkboot
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+        path: /var/lib/tftpboot/networkboot/{centos7,centos6}
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: copy files from FTP to PXE
+      copy:
+        src: /var/ftp/pub/repo/images/pxeboot/{vmlinuz,initrd.img}
+        dest: /var/lib/tftpboot/networkboot/centos7
+        remote_src: true
+
+    - name: start and enable services
+      service:
+        name: xineted dhcpd vsftpd
+        enabled: yes
+        state: started

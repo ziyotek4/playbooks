@@ -1,0 +1,15 @@
+#configuration mail server from ansible
+---
+- hosts: mail
+  remote_user: ansible
+  become: yes
+
+  tasks:
+    - name: remove sendmail
+      yum:
+      name: sendmail
+      state: remove
+
+    - name: install packages
+      yum:
+      name:

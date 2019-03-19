@@ -1,0 +1,11 @@
+#add the mail server to flz
+---
+- hosts: dns
+  remote_user: ansible
+  become: yes
+
+  tasks:
+    - name: Insert a line at the end of a file.
+      lineinfile:
+        path: /var/named/ziyotek4.flz
+        line: @       IN        MX      10        prdx-mail14.ziyotek4.local
