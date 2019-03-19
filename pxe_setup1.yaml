@@ -4,7 +4,7 @@
   become: yes
 
   vars:
-    - packages: "dhcp tftp tftp-server syslinux vsftpd xinetd"
+    - packages: "dhcp, tftp, tftp-server, syslinux, vsftpd, xinetd"
 
   tasks:
     - name: install packages
