@@ -17,7 +17,7 @@
       template:
         src: /home/ansible/ansible/template/dhcpd.conf
         dest: /etc/dhcp/dhcpd.conf
-        
+
     - name: template for tftp
       template:
         src: /home/ansible/ansible/template/tftp.j2
@@ -31,7 +31,7 @@
         group: root
         mode: 0644
         remote_src: true
-   
+
     - name: copy files to tftpboot
       copy:
         src: /usr/share/syslinux/menu.c32
@@ -40,7 +40,7 @@
         group: root
         mode: 0644
         remote_src: true
-     
+
     - name: copy files to tftpboot
       copy:
         src: /usr/share/syslinux/memdisk
@@ -49,7 +49,7 @@
         group: root
         mode: 0644
         remote_src: true
-    
+
     - name: copy files to tftpboot
       copy:
         src: /usr/share/syslinux/mboot.c32
@@ -58,7 +58,7 @@
         group: root
         mode: 0644
         remote_src: true
-    
+
     - name: copy files to tftpboot
       copy:
         src: /usr/share/syslinux/chain.c32
@@ -66,7 +66,7 @@
         owner: root
         group: root
         mode: 0644
-        remote_src: true    
+        remote_src: true
 
     - name: create directories
       file:
@@ -76,54 +76,63 @@
         group: root
         mode: 0755
     - name: create directories
-      file:   
+      file:
         path: /var/lib/tftpboot/networkboot
         state: directory
         owner: root
         group: root
         mode: 0755
     - name: create directories
-      file:  
+      file:
         path: /var/lib/tftpboot/networkboot/centos7
         state: directory
         owner: root
         group: root
         mode: 0755
     - name: create directories
-      file:  
+      file:
         path: /var/lib/tftpboot/networkboot/centos6
         state: directory
         owner: root
         group: root
-        mode: 0755    
+        mode: 0755
 
     - name: copy files
       copy:
         src: /var/ftp/pub/repo/images/pxeboot/vmlinuz
         dest: /var/lib/tftpboot/networkboot/centos7
         remote_src: true
-    
+
     - name: copy files
       copy:
         src: /var/ftp/pub/repo/images/pxeboot/initrd.img
         dest: /var/lib/tftpboot/networkboot/centos7
-        remote_src: true    
+        remote_src: true
+
+    - name: template for centos7
+      template:
+        src: /home/ansible/ansible/template/centos7.cfg
+        dest: /var/ftp/pub
+
+    - name: template default
+      template:
+        src: /home/ansible/ansible/template/default.j2
+        dest: /var/lib/tftpboot/pxelinux.cfg/default
 
     - name: start and enable services
       service:
         name: xinetd
         enabled: yes
         state: started
-     
+
     - name: start and enable services
       service:
         name: dhcpd
         enabled: yes
         state: started
-        
+
     - name: start and enable services
       service:
         name: vsftpd
         enabled: yes
-        state: started    
-     
+        state: started
