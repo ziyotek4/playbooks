@@ -111,7 +111,7 @@
 
     - name: start and enable services
       service:
-        name: xineted
+        name: xinetd
         enabled: yes
         state: started
      
