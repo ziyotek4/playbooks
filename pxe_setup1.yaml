@@ -1,5 +1,5 @@
 ---
-- hosts: pxe
+- hosts: ftp_repo
   remote_user: ansible
   become: yes
 
