@@ -25,7 +25,7 @@
 
     - name: copy files to tftpboot
       copy:
-        src: /usr/share/syslinux/{pxelinux.0,menu.c32,memdisk,mboot.c32,chain.c32}
+        src: /usr/share/syslinux/{pxelinux.0, menu.c32, memdisk, mboot.c32, chain.c32}
         dest: /var/lib/tftpboot/
         owner: root
         group: root
