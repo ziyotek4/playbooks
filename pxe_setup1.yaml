@@ -111,7 +111,7 @@
 
     - name: start and enable services
       service:
-        name: xineted dhcpd vsftpd
+        name: xineted
         enabled: yes
         state: started
      
