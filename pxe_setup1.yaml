@@ -32,7 +32,7 @@
         mode: 0644
         remote_src: true
    
-   - name: copy files to tftpboot
+    - name: copy files to tftpboot
       copy:
         src: /usr/share/syslinux/menu.c32
         dest: /var/lib/tftpboot/
