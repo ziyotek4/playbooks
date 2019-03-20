@@ -99,13 +99,13 @@
 
     - name: copy files
       copy:
-        src: /var/ftp/pub/repo/images/pxeboot/vmlinuz
+        src: /var/ftp/pub/images/pxeboot/vmlinuz
         dest: /var/lib/tftpboot/networkboot/centos7
         remote_src: true
 
     - name: copy files
       copy:
-        src: /var/ftp/pub/repo/images/pxeboot/initrd.img
+        src: /var/ftp/pub/images/pxeboot/initrd.img
         dest: /var/lib/tftpboot/networkboot/centos7
         remote_src: true
 
