@@ -2,38 +2,39 @@
 - hosts: ftp_repo
   remote_user: ansible
   become: yes
+
   tasks:
-  - name: copy files
-    copy:
-      src: /mnt/images/pxeboot/vmlinuz
-      dest: /var/lib/tftpboot/networkboot/centos6
-      remote_src: true
+    - name: copy files
+      copy:
+        src: /mnt/images/pxeboot/vmlinuz
+        dest: /var/lib/tftpboot/networkboot/centos6
+        remote_src: true
 
-  - name: copy files
-    copy:
-      src: /mnt/images/pxeboot/initrd.img
-      dest: /var/lib/tftpboot/networkboot/centos6
-      remote_src: true
+    - name: copy files
+      copy:
+        src: /mnt/images/pxeboot/initrd.img
+        dest: /var/lib/tftpboot/networkboot/centos6
+        remote_src: true
 
-  - name: template for centos6
-    template:
-      src: /home/ansible/ansible/template/centos6.cfg
-      dest: /var/ftp/pub/centos6
+    - name: template for centos6
+      template:
+        src: /home/ansible/ansible/template/centos6.cfg
+        dest: /var/ftp/pub/centos6
 
-  - name: start and enable services
-    service:
-      name: xinetd
-      enabled: yes
-      state: restarted
+    - name: start and enable services
+      service:
+        name: xinetd
+        enabled: yes
+        state: restarted
 
-  - name: start and enable services
-    service:
-      name: dhcpd
-      enabled: yes
-      state: restarted
+    - name: start and enable services
+      service:
+        name: dhcpd
+        enabled: yes
+        state: restarted
 
-  - name: start and enable services
-    service:
-      name: vsftpd
-      enabled: yes
-      state: restarted    
+    - name: start and enable services
+      service:
+        name: vsftpd
+        enabled: yes
+        state: restarted    
