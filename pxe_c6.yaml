@@ -1,0 +1,69 @@
+---
+- hosts: ftp_repo
+  remote_user: ansible
+  become: yes
+
+  tasks:
+  - name: mount drive
+    mount:
+      path: /tmp/CentOS-6.9-x86_64-bin-DVD1.iso
+      src: /mnt/
+      fstype: iso9660
+      opts: loop,ro
+      state: mounted
+
+  - name: create directories
+    file:
+      path: /var/ftp/pub/centos6
+      state: directory
+      owner: root
+      group: root
+      mode: 0755
+
+  - name: copy files to pub
+    copy:
+      src: /mnt/
+      dest: /var/ftp/pub/centos6
+      owner: root
+      group: root
+      remote_src: true
+
+  - name: copy files
+    copy:
+      src: /mnt/images/pxeboot/vmlinuz
+      dest: /var/lib/tftpboot/networkboot/centos6
+      remote_src: true
+
+  - name: copy files
+    copy:
+      src: /mnt/images/pxeboot/initrd.img
+      dest: /var/lib/tftpboot/networkboot/centos6
+      remote_src: true
+
+  - name: umount drive
+    mount:
+      dest: /mnt/
+      state: unmounted
+
+  - name: template for centos6
+    template:
+      src: /home/ansible/ansible/template/centos6.cfg
+      dest: /var/ftp/pub/centos6
+
+  - name: start and enable services
+    service:
+      name: xinetd
+      enabled: yes
+      state: restarted
+
+  - name: start and enable services
+    service:
+      name: dhcpd
+      enabled: yes
+      state: restarted
+
+  - name: start and enable services
+    service:
+      name: vsftpd
+      enabled: yes
+      state: restarted
