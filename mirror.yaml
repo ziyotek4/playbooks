@@ -6,7 +6,7 @@
 
   vars:
     - source_iso: "/var/ftp/pub/CentOS-7-x86_64-DVD-1804.iso"
-    - repo_mount: "/var/ftp/pub/repo"
+    - repo_mount: "/var/ftp/pub"
 
   tasks:
     - name: Create mountable dir
@@ -24,6 +24,6 @@
       yum_repository:
         name: local
         description: Local DVD repository
-        baseurl: "ftp://192.168.40.180/pub/repo"
+        baseurl: "ftp://192.168.40.180/pub"
         enabled: yes
         gpgcheck: no
