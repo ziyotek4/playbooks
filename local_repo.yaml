@@ -1,0 +1,14 @@
+#create local repo from ansible
+---
+- hosts: local_repo
+  remote_user: ansible
+  become: yes
+
+  task:
+    - name: Add repository
+      yum_repository:
+        name: local
+        description: Local DVD repository
+        baseurl: "ftp://192.168.40.185/pub/repo"
+        enabled: yes
+        gpgcheck: no
