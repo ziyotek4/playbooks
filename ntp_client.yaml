@@ -1,5 +1,5 @@
 ---
-- hosts: timeclients
+- hosts: ntpclients
   remote_user: ansible
   become: yes
 
