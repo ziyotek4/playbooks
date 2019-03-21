@@ -11,14 +11,12 @@
     - name: install epel-release
       yum:
         name: epel-release
-        state: 'present'
-        update_cache: 'yes'
+        state: latest
 
     - name: install packages
       yum:
         name: "{{packages}}"
-        state: 'present'
-        update_cache: 'yes'
+        state: latest
 
     - name: template for nagios
       template:
