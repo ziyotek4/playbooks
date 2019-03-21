@@ -12,7 +12,7 @@
 
     - name: template config file
       template:
-        src: /home/ansible/ansible/template/ftp.conf
+        src: /home/ansible/ansible/template/vsftpd.conf.j2
         dest: /etc/vsftpd/vsftpd.conf
 
     - name: open firewall port
@@ -21,7 +21,7 @@
         immediate: true
         permanent: true
         state: enabled
-   
+
     - name: disable SElinux
       selinux:
         state: disabled
