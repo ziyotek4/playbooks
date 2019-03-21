@@ -1,6 +1,6 @@
 #FTP package installation and configuration
 ---
-- hosts: ftp_repo
+- hosts: ftp
   remote_user: ansible
   become: yes
 
