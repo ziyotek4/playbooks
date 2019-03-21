@@ -3,11 +3,14 @@
   remote_user: ansible
   become: yes
   become_method: sudo
+  
   tasks:
+   
     - name: install bind
       yum:
         name: bind*
         state: latest
+    
     - name: template config file
       template:
         src: /home/ansible/ansible/template/slave175named.conf
@@ -15,11 +18,13 @@
         owner: root
         group: named
         mode: '0640'
+
     - name: enable and start named
       service:
         name: named
         enabled: yes
-         state: started
+        state: started
+    
     - name: open firewall port
       firewalld:
         service: dns
