@@ -5,9 +5,15 @@
   become: yes
 
   vars:
-    - packages: "epel-release, nrpe, nagios-plugins-all"
+    - packages: "nrpe, nagios-plugins-all"
 
   tasks:
+    - name: install epel-release
+      yum:
+        name: epel-release
+        state: 'present'
+        update_cache: 'yes'
+
     - name: install packages
       yum:
         name: "{{packages}}"
