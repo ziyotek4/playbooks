@@ -15,16 +15,16 @@
         src: /home/ansible/ansible/template/vsftpd.conf.j2
         dest: /etc/vsftpd/vsftpd.conf
 
-    - name: open firewall port
-      firewalld:
-        service: ftp
-        immediate: true
-        permanent: true
-        state: enabled
+   # - name: open firewall port
+   #   firewalld:
+   #     service: ftp
+   #     immediate: true
+   #     permanent: true
+   #     state: enabled
 
-    - name: disable SElinux
-      selinux:
-        state: disabled
+   # - name: disable SElinux
+   #   selinux:
+   #     state: disabled
 
     - name: enable and start vsftpd
       service:
