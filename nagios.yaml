@@ -5,7 +5,7 @@
   become: yes
 
   vars:
-    - packages: "epel-release, nrpe nagios-plugins-all"
+    - packages: "epel-release, nrpe, nagios-plugins-all"
 
   tasks:
     - name: install packages
