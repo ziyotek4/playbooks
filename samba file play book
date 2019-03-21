@@ -1,0 +1,21 @@
+---
+- name: samba file installtion
+  hosts: test2
+  remote_user: ansible
+  become: yes
+  tasks:
+  - name: install samba
+    yum: name=samba*
+  - name:   enable start  smb
+    service: name=smb  enabled=true state=started
+  - name: create a shared Directory
+    file:
+     path: /myshare/test_file
+     state: directory
+     mode: 0444
+  - name: adding a conf file
+    template:
+      src:  /home/ansible/sambafile.cfg
+      dest:  /etc/samba/smb.conf
+...
+
