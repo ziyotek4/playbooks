@@ -1,0 +1,26 @@
+###FROM ANSIBLE
+---
+- hosts: nagios
+  remote_user: ansible
+  become: yes
+
+  vars:
+    - packages: "epel-release, nrpe nagios-plugins-all"
+
+  tasks:
+    - name: install packages
+      yum:
+        name: "{{packages}}"
+        state: 'present'
+        update_cache: 'yes'
+
+    - name: template for nagios
+      template:
+        src: /home/ansible/ansible/template/nrpe.cfg
+        dest: /etc/nagios/nrpe.cfg
+
+    - name: start and enable nrpe
+      service:
+        name: nrpe
+        enabled: yes
+        state: started
