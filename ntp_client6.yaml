@@ -1,5 +1,5 @@
 ---
-- hosts: ntpclients6
+- hosts: centos6
   remote_user: ansible
   become: yes
 
