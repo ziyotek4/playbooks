@@ -3,10 +3,13 @@
   remote_user: ansible
   become: yes
 
+  vars:
+    - packages: "ntp, ntpdate"
+    
   tasks:
-    - name: install ntp package
+    - name: install packages
       yum:
-        name: ntp ntpdate
+        name: "{{packages}}"
         state: latest
 
     - name: configure ntp
